@@ -8,15 +8,15 @@ function _load() {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) || '[]')
     return raw
-      .map(s => ({ ...s, jersey: JERSEYS.find(j => j.id === s.jerseyId) || null }))
+      .map(s => ({ ...s, number: s.number || '', jersey: JERSEYS.find(j => j.id === s.jerseyId) || null }))
       .filter(i => i.jersey)
   } catch { return [] }
 }
 
 function _save(items) {
   localStorage.setItem(KEY, JSON.stringify(
-    items.map(({ key, jerseyId, size, qty, personalization }) =>
-      ({ key, jerseyId, size, qty, personalization })
+    items.map(({ key, jerseyId, size, qty, number, personalization }) =>
+      ({ key, jerseyId, size, qty, number, personalization })
     )
   ))
 }
@@ -31,9 +31,9 @@ function _notify() {
 }
 
 // ── Actions ──────────────────────────────────────────────────────────────────
-export function cartAdd(jersey, size, qty = 1, personalization = '') {
+export function cartAdd(jersey, size, qty = 1, number = '', personalization = '') {
   const existing = _items.find(
-    i => i.jerseyId === jersey.id && i.size === size && i.personalization === personalization
+    i => i.jerseyId === jersey.id && i.size === size && i.number === number && i.personalization === personalization
   )
   if (existing) {
     _items = _items.map(i => i === existing ? { ...i, qty: i.qty + qty } : i)
@@ -44,6 +44,7 @@ export function cartAdd(jersey, size, qty = 1, personalization = '') {
       jersey,
       size,
       qty,
+      number,
       personalization,
     }]
   }

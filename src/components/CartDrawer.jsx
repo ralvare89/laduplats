@@ -21,7 +21,8 @@ export default function CartDrawer({ onClose, onSizeGuide }) {
     const lines = items.map((item, idx) => {
       let line = `${idx + 1}. *${item.jersey.name}*\n`
       line += `   ⚽ ${item.jersey.team}  |  📏 ${item.size}  |  🔢 ${item.qty}`
-      if (item.personalization) line += `\n   ✏️ ${item.personalization}`
+      if (item.number)        line += `\n   🔟 Dorsal: ${item.number}`
+      if (item.personalization) line += `\n   ✏️ Nombre: ${item.personalization}`
       return line
     }).join('\n\n')
 
@@ -113,9 +114,14 @@ export default function CartDrawer({ onClose, onSizeGuide }) {
                       <span className="text-gold-500 text-[10px] font-bold border border-gold-500/40 px-1.5 py-0.5 leading-none">
                         {item.size}
                       </span>
+                      {item.number && (
+                        <span className="text-zinc-400 text-[10px] font-bold border border-zinc-700 px-1.5 py-0.5 leading-none">
+                          #{item.number}
+                        </span>
+                      )}
                       {item.personalization && (
-                        <span className="text-zinc-500 text-[10px] truncate max-w-[120px]">
-                          ✏️ {item.personalization}
+                        <span className="text-zinc-500 text-[10px] truncate max-w-[100px]">
+                          {item.personalization}
                         </span>
                       )}
                     </div>

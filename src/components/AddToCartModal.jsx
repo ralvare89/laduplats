@@ -4,12 +4,15 @@ import { cartAdd } from '../store/useCart'
 const KIDS_SIZES  = ['XXXS (16)', 'XXS (18)', 'XS (20)', 'S (22)', 'M (24)', 'L (26)', 'XL (28)']
 const ADULT_SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL']
 
+const DORSALES = ['Sin número', ...Array.from({ length: 99 }, (_, i) => String(i + 1))]
+
 export default function AddToCartModal({ jersey, onClose, onSizeGuide }) {
   const sizes = jersey?.sizes || (jersey?.ninos ? KIDS_SIZES : ADULT_SIZES)
-  const [size, setSize]                     = useState(sizes[2] || sizes[0])
-  const [qty, setQty]                       = useState(1)
+  const [size, setSize]                       = useState(sizes[2] || sizes[0])
+  const [qty, setQty]                         = useState(1)
+  const [number, setNumber]                   = useState('Sin número')
   const [personalization, setPersonalization] = useState('')
-  const [added, setAdded]                   = useState(false)
+  const [added, setAdded]                     = useState(false)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -19,7 +22,7 @@ export default function AddToCartModal({ jersey, onClose, onSizeGuide }) {
   }, [onClose])
 
   const handleAdd = () => {
-    cartAdd(jersey, size, qty, personalization)
+    cartAdd(jersey, size, qty, number === 'Sin número' ? '' : number, personalization)
     setAdded(true)
     setTimeout(onClose, 800)
   }
@@ -97,14 +100,28 @@ export default function AddToCartModal({ jersey, onClose, onSizeGuide }) {
             </div>
           </div>
 
-          {/* Personalization */}
+          {/* Dorsal / Número */}
           <div>
-            <label className="label">Personalización <span className="text-zinc-600 normal-case font-normal">(opcional)</span></label>
+            <label className="label">Número / Dorsal <span className="text-zinc-600 normal-case font-normal">(opcional)</span></label>
+            <select
+              value={number}
+              onChange={e => setNumber(e.target.value)}
+              className="input-field"
+            >
+              {DORSALES.map(n => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Nombre personalizado */}
+          <div>
+            <label className="label">Nombre en la camiseta <span className="text-zinc-600 normal-case font-normal">(opcional)</span></label>
             <input
               value={personalization}
               onChange={e => setPersonalization(e.target.value)}
               className="input-field"
-              placeholder="Ej: MESSI 10"
+              placeholder="Ej: MESSI, RONALDO, tu nombre…"
             />
           </div>
 
