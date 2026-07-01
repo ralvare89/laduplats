@@ -41,7 +41,7 @@ function JerseyPhoto({ item, size = 'lg' }) {
   )
 }
 
-export default function WorldCupSlider({ onOrder }) {
+export default function WorldCupSlider({ onAddToCart }) {
   const [active, setActive] = useState(0)
   const [animating, setAnimating] = useState(false)
 
@@ -123,7 +123,7 @@ export default function WorldCupSlider({ onOrder }) {
             </div>
 
             <button
-              onClick={() => onOrder?.({ name: `Selección ${cur.team} 2026`, team: cur.team, sizes: ['S','M','L','XL','2XL','3XL','4XL'] })}
+              onClick={() => onAddToCart?.({ id: `wc-${cur.team}`, name: `Selección ${cur.team} 2026`, team: cur.team, sizes: ['S','M','L','XL','2XL','3XL','4XL'] })}
               className="btn-gold py-3 px-10"
             >
               Pedir esta camiseta

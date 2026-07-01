@@ -8,21 +8,29 @@ import ComoPedir from './components/ComoPedir'
 import FormPedido from './components/FormPedido'
 import Footer from './components/Footer'
 import WhatsAppFAB from './components/WhatsAppFAB'
-import OrderModal from './components/OrderModal'
 import GalleryModal from './components/GalleryModal'
+import SizeGuideModal from './components/SizeGuideModal'
+import AddToCartModal from './components/AddToCartModal'
+import CartDrawer from './components/CartDrawer'
 
 export default function App() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [orderJersey, setOrderJersey] = useState(null)
-  const [galleryJersey, setGalleryJersey] = useState(null)
+  const [searchQuery,    setSearchQuery]    = useState('')
+  const [galleryJersey,  setGalleryJersey]  = useState(null)
+  const [cartJersey,     setCartJersey]     = useState(null)  // jersey for AddToCartModal
+  const [cartOpen,       setCartOpen]       = useState(false)
+  const [sizeGuideOpen,  setSizeGuideOpen]  = useState(false)
+
+  const openSizeGuide  = () => setSizeGuideOpen(true)
+  const openCart       = () => setCartOpen(true)
+  const openAddToCart  = (jersey) => setCartJersey(jersey)
 
   return (
     <div className="min-h-screen bg-black">
-      <Navbar />
+      <Navbar onSizeGuide={openSizeGuide} onCartOpen={openCart} />
       <Hero />
-      <WorldCupSlider onOrder={setOrderJersey} />
+      <WorldCupSlider onAddToCart={openAddToCart} />
 
-      {/* Search section */}
+      {/* Search */}
       <section className="py-10 bg-zinc-950 border-y border-zinc-900 sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SearchBar onSearch={setSearchQuery} />
@@ -31,7 +39,7 @@ export default function App() {
 
       <CatalogGrid
         searchQuery={searchQuery}
-        onOrder={setOrderJersey}
+        onAddToCart={openAddToCart}
         onGallery={setGalleryJersey}
       />
       <ComoPedir />
@@ -39,16 +47,35 @@ export default function App() {
       <Footer />
       <WhatsAppFAB />
 
+      {/* Gallery */}
       {galleryJersey && (
         <GalleryModal
           jersey={galleryJersey}
           onClose={() => setGalleryJersey(null)}
-          onOrder={(j) => { setGalleryJersey(null); setOrderJersey(j) }}
+          onAddToCart={(j) => { setGalleryJersey(null); openAddToCart(j) }}
         />
       )}
 
-      {orderJersey && (
-        <OrderModal jersey={orderJersey} onClose={() => setOrderJersey(null)} />
+      {/* Add to cart modal (size/qty picker) */}
+      {cartJersey && (
+        <AddToCartModal
+          jersey={cartJersey}
+          onClose={() => setCartJersey(null)}
+          onSizeGuide={openSizeGuide}
+        />
+      )}
+
+      {/* Cart drawer */}
+      {cartOpen && (
+        <CartDrawer
+          onClose={() => setCartOpen(false)}
+          onSizeGuide={openSizeGuide}
+        />
+      )}
+
+      {/* Size guide */}
+      {sizeGuideOpen && (
+        <SizeGuideModal onClose={() => setSizeGuideOpen(false)} />
       )}
     </div>
   )

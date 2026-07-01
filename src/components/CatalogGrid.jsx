@@ -1,15 +1,42 @@
 import { useState, useMemo, useEffect } from 'react'
 import { CATEGORIES, JERSEYS } from '../data/catalog'
 import JerseyCard from './JerseyCard'
+import LeagueIcon from './LeagueIcon'
 
 const PER_PAGE = 20
 
-export default function CatalogGrid({ searchQuery, onOrder, onGallery }) {
-  const [activecat, setActivecat] = useState('selecciones')
-  const [page, setPage] = useState(1)
+export default function CatalogGrid({ searchQuery, onAddToCart, onGallery }) {
+  const [activecat, setActivecat]               = useState('selecciones')
+  const [activeteam, setActiveteam]             = useState(null)
+  const [activeteamOriginals, setActiveteamOriginals] = useState(null)
+  const [page, setPage]                         = useState(1)
 
-  // Reset to page 1 whenever category or search changes
-  useEffect(() => { setPage(1) }, [activecat, searchQuery])
+  useEffect(() => { setActiveteam(null); setActiveteamOriginals(null) }, [activecat])
+  useEffect(() => { setPage(1) }, [activecat, activeteam, activeteamOriginals, searchQuery])
+
+  // Respond to navbar mega-menu selections
+  useEffect(() => {
+    const handler = (e) => {
+      setActivecat(e.detail.cat)
+      setActiveteam(null)
+      setActiveteamOriginals(e.detail.teamOriginals || null)
+      setPage(1)
+    }
+    window.addEventListener('catalog-filter', handler)
+    return () => window.removeEventListener('catalog-filter', handler)
+  }, [])
+
+  // Unique teams per category with count (for submenu chips)
+  const teamsInCategory = useMemo(() => {
+    if (activecat === 'all') return []
+    const counts = {}
+    JERSEYS.forEach(j => {
+      if (j.cat === activecat) counts[j.team] = (counts[j.team] || 0) + 1
+    })
+    return Object.entries(counts)
+      .map(([team, count]) => ({ team, count }))
+      .sort((a, b) => a.team.localeCompare(b.team))
+  }, [activecat])
 
   const filtered = useMemo(() => {
     if (searchQuery && searchQuery.length > 1) {
@@ -19,9 +46,14 @@ export default function CatalogGrid({ searchQuery, onOrder, onGallery }) {
         j.team.toLowerCase().includes(q)
       )
     }
-    if (activecat === 'all') return JERSEYS
-    return JERSEYS.filter(j => j.cat === activecat)
-  }, [activecat, searchQuery])
+    let base = activecat === 'all' ? JERSEYS : JERSEYS.filter(j => j.cat === activecat)
+    if (activeteamOriginals) {
+      base = base.filter(j => activeteamOriginals.includes(j.team))
+    } else if (activeteam) {
+      base = base.filter(j => j.team === activeteam)
+    }
+    return base
+  }, [activecat, activeteam, activeteamOriginals, searchQuery])
 
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE)
@@ -30,12 +62,8 @@ export default function CatalogGrid({ searchQuery, onOrder, onGallery }) {
   const scrollToTop = () =>
     document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' })
 
-  const goTo = (p) => {
-    setPage(p)
-    scrollToTop()
-  }
+  const goTo = (p) => { setPage(p); scrollToTop() }
 
-  // Build page number list: first, ...ellipsis..., current±1, ...ellipsis..., last
   const pageNumbers = () => {
     if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1)
     const pages = new Set([1, totalPages, page, page - 1, page + 1].filter(p => p >= 1 && p <= totalPages))
@@ -45,6 +73,7 @@ export default function CatalogGrid({ searchQuery, onOrder, onGallery }) {
   return (
     <section id="catalogo" className="py-24 bg-black border-t border-zinc-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Header */}
         <div className="mb-10">
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-gold-500 mb-3">
@@ -53,24 +82,55 @@ export default function CatalogGrid({ searchQuery, onOrder, onGallery }) {
           <h2 className="section-title">Catálogo</h2>
         </div>
 
-        {/* Category tabs */}
+        {/* Category tabs + team submenu */}
         {!isSearching && (
-          <div className="flex overflow-x-auto gap-0 mb-10 pb-1" style={{ scrollbarWidth: 'none' }}>
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setActivecat(cat.id)}
-                className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-widest border-b-2 transition-all whitespace-nowrap ${
-                  activecat === cat.id
-                    ? 'border-gold-500 text-gold-500 bg-gold-500/5'
-                    : 'border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600'
-                }`}
-              >
-                <span className="text-base">{cat.icon}</span>
-                {cat.label}
-              </button>
-            ))}
-          </div>
+          <>
+            <div className={`flex overflow-x-auto gap-0 pb-1 ${teamsInCategory.length > 0 ? 'mb-3' : 'mb-10'}`} style={{ scrollbarWidth: 'none' }}>
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActivecat(cat.id)}
+                  className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-widest border-b-2 transition-all whitespace-nowrap ${
+                    activecat === cat.id
+                      ? 'border-gold-500 text-gold-500 bg-gold-500/5'
+                      : 'border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600'
+                  }`}
+                >
+                  <LeagueIcon id={cat.id} size={20} />
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            {teamsInCategory.length > 0 && (
+              <div className="flex overflow-x-auto gap-2 mb-8 pb-1.5" style={{ scrollbarWidth: 'none' }}>
+                <button
+                  onClick={() => { setActiveteam(null); setActiveteamOriginals(null) }}
+                  className={`flex-shrink-0 px-3 py-1.5 text-xs font-semibold border transition-all whitespace-nowrap ${
+                    activeteam === null && activeteamOriginals === null
+                      ? 'border-gold-500 text-gold-500 bg-gold-500/10'
+                      : 'border-zinc-800 text-zinc-500 hover:border-zinc-600 hover:text-zinc-300'
+                  }`}
+                >
+                  Todos
+                </button>
+                {teamsInCategory.map(({ team, count }) => (
+                  <button
+                    key={team}
+                    onClick={() => { setActiveteam(activeteam === team ? null : team); setActiveteamOriginals(null) }}
+                    className={`flex-shrink-0 px-3 py-1.5 text-xs font-semibold border transition-all whitespace-nowrap ${
+                      activeteam === team && !activeteamOriginals
+                        ? 'border-gold-500 text-gold-500 bg-gold-500/10'
+                        : 'border-zinc-800 text-zinc-500 hover:border-zinc-600 hover:text-zinc-300'
+                    }`}
+                  >
+                    {team}
+                    <span className="ml-1.5 opacity-40 text-[10px]">{count}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         {/* Search result header */}
@@ -90,7 +150,7 @@ export default function CatalogGrid({ searchQuery, onOrder, onGallery }) {
         {paginated.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {paginated.map(jersey => (
-              <JerseyCard key={jersey.id} jersey={jersey} onOrder={onOrder} onGallery={onGallery} />
+              <JerseyCard key={jersey.id} jersey={jersey} onAddToCart={onAddToCart} onGallery={onGallery} />
             ))}
           </div>
         ) : (
@@ -104,7 +164,6 @@ export default function CatalogGrid({ searchQuery, onOrder, onGallery }) {
         {totalPages > 1 && (
           <div className="mt-12 flex flex-col items-center gap-4">
             <div className="flex items-center gap-1">
-              {/* Prev */}
               <button
                 onClick={() => goTo(page - 1)}
                 disabled={page === 1}
@@ -115,7 +174,6 @@ export default function CatalogGrid({ searchQuery, onOrder, onGallery }) {
                 </svg>
               </button>
 
-              {/* Page numbers */}
               {pageNumbers().map((n, i, arr) => (
                 <>
                   {i > 0 && arr[i - 1] !== n - 1 && (
@@ -135,7 +193,6 @@ export default function CatalogGrid({ searchQuery, onOrder, onGallery }) {
                 </>
               ))}
 
-              {/* Next */}
               <button
                 onClick={() => goTo(page + 1)}
                 disabled={page === totalPages}

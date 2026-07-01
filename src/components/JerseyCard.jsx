@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function JerseyCard({ jersey, onGallery, onOrder }) {
+export default function JerseyCard({ jersey, onGallery, onAddToCart }) {
   const [imgError, setImgError] = useState(false)
   const { name, team, img, imgProd, ninos, images = [] } = jersey
 
@@ -60,14 +60,14 @@ export default function JerseyCard({ jersey, onGallery, onOrder }) {
         <p className="text-zinc-500 text-xs uppercase tracking-widest truncate">{team}</p>
         <h3 className="text-white text-xs font-semibold leading-snug mt-0.5 line-clamp-2">{name}</h3>
         <div className="mt-2 flex items-center justify-between">
-          <span className="text-xs text-zinc-600">S – 4XL</span>
+          <span className="text-xs text-zinc-600">{ninos ? 'XXXS – XL' : 'S – 4XL'}</span>
           <button
-            onClick={(e) => { e.stopPropagation(); onOrder(jersey) }}
+            onClick={(e) => { e.stopPropagation(); onAddToCart(jersey) }}
             className="text-gold-500 hover:text-gold-400 transition-colors"
-            title="Pedir"
+            title="Agregar al carrito"
           >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.551 4.105 1.515 5.83L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.893 0-3.668-.518-5.184-1.421l-.372-.22-3.862 1.007 1.03-3.758-.242-.387A9.952 9.952 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
           </button>
         </div>

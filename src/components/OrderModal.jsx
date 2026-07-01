@@ -3,11 +3,16 @@ import { useForm } from 'react-hook-form'
 
 const WHATSAPP_NUMBER = '50685297242'
 
-export default function OrderModal({ jersey, onClose }) {
+const KIDS_SIZES   = ['XXXS (16)', 'XXS (18)', 'XS (20)', 'S (22)', 'M (24)', 'L (26)', 'XL (28)']
+const ADULT_SIZES  = ['S', 'M', 'L', 'XL', '2XL', '3XL']
+
+export default function OrderModal({ jersey, onClose, onSizeGuide }) {
+  const sizes = jersey?.sizes || (jersey?.ninos ? KIDS_SIZES : ADULT_SIZES)
+
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       camiseta: jersey?.name || '',
-      talla: jersey?.sizes?.[2] || 'M',
+      talla: sizes[2] || sizes[0] || '',
       cantidad: '1',
     }
   })
@@ -77,9 +82,14 @@ export default function OrderModal({ jersey, onClose }) {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="label">Talla *</label>
+              <div className="flex items-baseline justify-between mb-1">
+                <label className="label">Talla *</label>
+                <button type="button" onClick={onSizeGuide} className="text-[10px] text-gold-500/70 hover:text-gold-500 transition-colors">
+                  ¿No sabes tu talla? →
+                </button>
+              </div>
               <select {...register('talla')} className="input-field">
-                {(jersey?.sizes || ['S','M','L','XL','2XL']).map(s => (
+                {sizes.map(s => (
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-export default function GalleryModal({ jersey, onClose, onOrder }) {
+export default function GalleryModal({ jersey, onClose, onAddToCart }) {
   const { name, team, images = [], yupooUrl, ninos } = jersey
   const [active, setActive] = useState(0)
   const [thumbErrors, setThumbErrors] = useState({})
@@ -142,7 +142,7 @@ export default function GalleryModal({ jersey, onClose, onOrder }) {
           Ver en Yupoo
         </a>
         <button
-          onClick={() => { onClose(); onOrder(jersey) }}
+          onClick={() => { onClose(); onAddToCart(jersey) }}
           className="btn-gold py-2 px-6 text-sm flex items-center gap-2"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
