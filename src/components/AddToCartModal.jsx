@@ -28,12 +28,12 @@ export default function AddToCartModal({ jersey, onClose, onSizeGuide }) {
   }
 
   return (
-    <div className="fixed inset-0 z-[150] flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative bg-zinc-950 border border-zinc-800 w-full sm:max-w-md shadow-2xl">
-        {/* Header */}
-        <div className="flex items-start gap-4 p-5 border-b border-zinc-800">
+      <div className="relative bg-zinc-950 border border-zinc-800 w-full sm:max-w-md shadow-2xl max-h-[90dvh] flex flex-col">
+        {/* Header — fijo arriba */}
+        <div className="flex items-start gap-4 p-5 border-b border-zinc-800 flex-shrink-0">
           {(jersey.img || jersey.imgProd) && (
             <img
               src={jersey.img || jersey.imgProd}
@@ -53,7 +53,8 @@ export default function AddToCartModal({ jersey, onClose, onSizeGuide }) {
           </button>
         </div>
 
-        <div className="p-5 space-y-5">
+        {/* Contenido scrollable */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-5">
           {/* Size selector */}
           <div>
             <div className="flex items-baseline justify-between mb-2">
@@ -125,8 +126,10 @@ export default function AddToCartModal({ jersey, onClose, onSizeGuide }) {
               placeholder="Ej: MESSI, RONALDO, tu nombre…"
             />
           </div>
+        </div>
 
-          {/* Add button */}
+        {/* Botón — siempre visible abajo */}
+        <div className="flex-shrink-0 border-t border-zinc-800 p-4">
           <button
             onClick={handleAdd}
             disabled={added}

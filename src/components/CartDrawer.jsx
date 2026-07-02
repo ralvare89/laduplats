@@ -1,6 +1,18 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useCart, cartRemove, cartSetQty, cartClear } from '../store/useCart'
+
+function CartThumb({ src, alt }) {
+  const [err, setErr] = useState(false)
+  if (!src || err) return (
+    <div className="w-full h-full flex items-center justify-center">
+      <svg className="w-6 h-6 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
+      </svg>
+    </div>
+  )
+  return <img src={src} alt={alt} onError={() => setErr(true)} className="w-full h-full object-cover" />
+}
 
 const WHATSAPP_NUMBER = '50685297242'
 
@@ -91,19 +103,7 @@ export default function CartDrawer({ onClose, onSizeGuide }) {
                 <div key={item.key} className="flex gap-3 pb-4 border-b border-zinc-900 last:border-0">
                   {/* Thumbnail */}
                   <div className="w-16 h-16 flex-shrink-0 border border-zinc-800 bg-zinc-900 overflow-hidden">
-                    {(item.jersey.img || item.jersey.imgProd) ? (
-                      <img
-                        src={item.jersey.img || item.jersey.imgProd}
-                        alt={item.jersey.name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <svg className="w-6 h-6 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01" />
-                        </svg>
-                      </div>
-                    )}
+                    <CartThumb src={item.jersey.img || item.jersey.imgProd} alt={item.jersey.name} />
                   </div>
 
                   {/* Info */}

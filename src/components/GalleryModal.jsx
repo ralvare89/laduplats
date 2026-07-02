@@ -29,7 +29,7 @@ export default function GalleryModal({ jersey, onClose, onAddToCart }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col bg-black/95 backdrop-blur-sm"
+      className="fixed inset-0 z-[200] flex flex-col bg-black/95 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
       {/* Header */}
