@@ -50,7 +50,7 @@ export default function Hero() {
       <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-4xl mx-auto pt-20 md:pt-0">
         <img src={logo} alt="La Dupla T&S" className="w-36 h-36 md:w-48 md:h-48 object-contain drop-shadow-2xl mb-6" />
 
-        <p className="text-xl md:text-4xl font-semibold uppercase tracking-[0.15em] md:tracking-[0.4em] text-gold-500 mb-4 px-2">Camisetas deportivas de alta calidad</p>
+        <p className="text-base md:text-4xl font-semibold uppercase tracking-[0.08em] md:tracking-[0.4em] text-gold-500 mb-4 px-2">Camisetas deportivas de alta calidad</p>
 
         <p className="text-zinc-400 text-base md:text-lg max-w-xl leading-relaxed mb-10">
           Tu equipo favorito, tu estilo. Pedidos por encargo con envío a todo el país.
@@ -64,9 +64,9 @@ export default function Hero() {
 
         <div className="mt-16 grid grid-cols-3 gap-8 md:gap-16 text-center">
           {[
-            { num: '100+', label: 'Equipos' },
-            { num: 'A+',   label: 'Calidad' },
-            { num: '🚚',   label: 'Envío CR' },
+            { num: '100+',     label: 'Equipos' },
+            { num: '₡15K+',   label: 'Desde' },
+            { num: '🚚',       label: 'Envío CR' },
           ].map(({ num, label }) => (
             <div key={label}>
               <p className="font-display text-4xl md:text-5xl text-gold-500">{num}</p>

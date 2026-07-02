@@ -129,18 +129,7 @@ export default function GalleryModal({ jersey, onClose, onAddToCart }) {
       )}
 
       {/* Footer actions */}
-      <div className="flex-shrink-0 border-t border-zinc-800 px-4 py-3 flex items-center justify-between gap-3">
-        <a
-          href={yupooUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-ghost text-xs py-2 px-4 flex items-center gap-2"
-        >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-          Ver en Yupoo
-        </a>
+      <div className="flex-shrink-0 border-t border-zinc-800 px-4 py-3 flex items-center justify-end gap-3">
         <button
           onClick={() => { onClose(); onAddToCart(jersey) }}
           className="btn-gold py-2 px-6 text-sm flex items-center gap-2"

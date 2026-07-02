@@ -77,7 +77,7 @@ export default function WorldCupSlider({ onAddToCart }) {
           <div className="inline-flex items-center gap-2 bg-gold-500/10 border border-gold-500/30 px-4 py-1.5 mb-4">
             <span className="text-gold-500 text-xs font-bold tracking-widest uppercase">Mundial 2026 · USA · México · Canadá</span>
           </div>
-          <h2 className="font-display text-6xl md:text-8xl text-white tracking-widest">
+          <h2 className="font-display text-4xl sm:text-6xl md:text-8xl text-white tracking-wide md:tracking-widest">
             MUNDIAL <span className="text-gold-500">2026</span>
           </h2>
           <p className="text-zinc-500 mt-3 text-sm tracking-widest">Las camisetas oficiales de los mejores equipos del planeta</p>

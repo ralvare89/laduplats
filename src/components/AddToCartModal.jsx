@@ -44,6 +44,7 @@ export default function AddToCartModal({ jersey, onClose, onSizeGuide }) {
           <div className="flex-1 min-w-0">
             <p className="text-zinc-500 text-[10px] uppercase tracking-widest truncate">{jersey.team}</p>
             <h3 className="text-white text-sm font-semibold leading-snug mt-0.5 line-clamp-2">{jersey.name}</h3>
+            <p className="text-gold-500 text-base font-bold mt-1 font-mono">Desde {jersey.ninos ? '₡15.000' : '₡20.000'}</p>
           </div>
           <button onClick={onClose} className="text-zinc-600 hover:text-white transition-colors flex-shrink-0 p-1">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

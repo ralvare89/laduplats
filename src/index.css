@@ -14,9 +14,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   body {
     @apply bg-black text-white antialiased;
+    overflow-x: hidden;
   }
 }
 
@@ -31,7 +33,7 @@
     @apply border border-zinc-700 hover:border-zinc-500 text-zinc-400 hover:text-white font-bold py-3 px-8 rounded-none uppercase tracking-widest transition-all duration-200 inline-block text-sm;
   }
   .section-title {
-    @apply font-display text-5xl md:text-7xl tracking-wider text-white;
+    @apply font-display text-4xl sm:text-5xl md:text-7xl tracking-wide md:tracking-wider text-white;
   }
   .input-field {
     @apply w-full bg-zinc-900 border border-zinc-700 focus:border-gold-500 text-white px-4 py-3 outline-none transition-colors duration-200 placeholder-zinc-500 text-sm;

@@ -12,6 +12,7 @@ import GalleryModal from './components/GalleryModal'
 import SizeGuideModal from './components/SizeGuideModal'
 import AddToCartModal from './components/AddToCartModal'
 import CartDrawer from './components/CartDrawer'
+import MobileBottomBar from './components/MobileBottomBar'
 
 export default function App() {
   const [searchQuery,    setSearchQuery]    = useState('')
@@ -25,7 +26,7 @@ export default function App() {
   const openAddToCart  = (jersey) => setCartJersey(jersey)
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black pb-16 md:pb-0">
       <Navbar onSizeGuide={openSizeGuide} onCartOpen={openCart} />
       <Hero />
       <WorldCupSlider onAddToCart={openAddToCart} />
@@ -46,6 +47,7 @@ export default function App() {
       <FormPedido />
       <Footer />
       <WhatsAppFAB />
+      <MobileBottomBar />
 
       {/* Gallery */}
       {galleryJersey && (

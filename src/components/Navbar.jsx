@@ -135,9 +135,9 @@ export default function Navbar({ onSizeGuide, onCartOpen }) {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/95 backdrop-blur-sm border-b border-zinc-800' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
-        <a href="#inicio" className="flex items-center gap-3">
-          <img src={logo} alt="La Dupla T&S" className="h-10 w-10 object-contain" />
-          <span className="font-display text-2xl tracking-widest text-white">
+        <a href="#inicio" className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <img src={logo} alt="La Dupla T&S" className="h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 object-contain" />
+          <span className="font-display text-lg sm:text-2xl tracking-wide sm:tracking-widest text-white whitespace-nowrap">
             LA DUPLA <span className="font-brand font-black text-gold-500">T&S</span>
           </span>
         </a>
@@ -214,14 +214,30 @@ export default function Navbar({ onSizeGuide, onCartOpen }) {
           <a href="#pedido" className="btn-gold text-xs py-2 px-5">Pedir Ahora</a>
         </div>
 
-        {/* Mobile burger */}
-        <button onClick={() => setOpen(!open)} className="md:hidden text-white p-2">
-          <div className="space-y-1.5">
-            <span className={`block w-6 h-0.5 bg-white transition-all ${open ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all ${open ? 'opacity-0' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all ${open ? '-rotate-45 -translate-y-2' : ''}`} />
-          </div>
-        </button>
+        {/* Mobile: cart + burger */}
+        <div className="md:hidden flex items-center gap-1">
+          <button
+            onClick={onCartOpen}
+            className="relative text-zinc-300 hover:text-gold-500 transition-colors p-2"
+            title="Carrito"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            {cartCount > 0 && (
+              <span className="absolute top-0.5 right-0.5 bg-gold-500 text-black text-[9px] font-black w-4 h-4 flex items-center justify-center leading-none">
+                {cartCount > 9 ? '9+' : cartCount}
+              </span>
+            )}
+          </button>
+          <button onClick={() => setOpen(!open)} className="text-white p-2">
+            <div className="space-y-1.5">
+              <span className={`block w-6 h-0.5 bg-white transition-all ${open ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`block w-6 h-0.5 bg-white transition-all ${open ? 'opacity-0' : ''}`} />
+              <span className={`block w-6 h-0.5 bg-white transition-all ${open ? '-rotate-45 -translate-y-2' : ''}`} />
+            </div>
+          </button>
+        </div>
       </div>
 
       {/* Mega menu — desktop only */}

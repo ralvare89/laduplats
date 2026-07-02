@@ -6,7 +6,7 @@ export default function WhatsAppFAB() {
       href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola! Quiero consultar sobre camisetas 🏆')}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center shadow-2xl shadow-green-500/30 transition-all duration-200 hover:scale-110 group"
+      className="fixed bottom-20 md:bottom-6 right-6 z-[160] w-14 h-14 bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center shadow-2xl shadow-green-500/30 transition-all duration-200 hover:scale-110 group"
       aria-label="Contactar por WhatsApp"
     >
       <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">

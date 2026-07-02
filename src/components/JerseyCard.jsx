@@ -59,7 +59,8 @@ export default function JerseyCard({ jersey, onGallery, onAddToCart }) {
       <div className="p-3">
         <p className="text-zinc-500 text-xs uppercase tracking-widest truncate">{team}</p>
         <h3 className="text-white text-xs font-semibold leading-snug mt-0.5 line-clamp-2">{name}</h3>
-        <div className="mt-2 flex items-center justify-between">
+        <p className="text-gold-500 text-sm font-bold mt-1.5 font-mono">Desde {ninos ? '₡15.000' : '₡20.000'}</p>
+        <div className="mt-1.5 flex items-center justify-between">
           <span className="text-xs text-zinc-600">{ninos ? 'XXXS – XL' : 'S – 4XL'}</span>
           <button
             onClick={(e) => { e.stopPropagation(); onAddToCart(jersey) }}
