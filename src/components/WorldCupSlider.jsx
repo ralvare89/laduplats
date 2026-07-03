@@ -29,13 +29,13 @@ function JerseyPhoto({ item, size = 'lg' }) {
   }
 
   return (
-    <div className={`relative ${isLg ? 'w-56 h-72' : 'w-32 h-40'} overflow-hidden`}>
+    <div className={`relative ${isLg ? 'w-56 h-72' : 'w-32 h-40'}`}>
       <img
         src={item.img}
         alt={item.team}
         onError={() => setErr(true)}
-        className="w-full h-full object-cover object-top"
-        style={{ filter: isLg ? 'drop-shadow(0 20px 50px rgba(0,0,0,0.7))' : 'none' }}
+        className="w-full h-full object-contain"
+        style={{ filter: isLg ? 'drop-shadow(0 20px 40px rgba(0,0,0,0.6))' : 'none' }}
       />
     </div>
   )
@@ -100,7 +100,6 @@ export default function WorldCupSlider({ onAddToCart }) {
             style={{ minWidth: '280px' }}
           >
             <div className="relative">
-              {/* Glow behind jersey */}
               <div
                 className="absolute inset-0 blur-3xl rounded-full"
                 style={{ background: `${cur.bg}50`, transform: 'scale(1.3)' }}
