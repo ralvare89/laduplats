@@ -32,7 +32,7 @@ export default function App() {
       <WorldCupSlider onAddToCart={openAddToCart} />
 
       {/* Search */}
-      <section className="py-10 bg-zinc-950 border-y border-zinc-900 sticky top-16 z-40">
+      <section className="py-10 bg-zinc-950 border-y border-zinc-900 sticky top-16 z-40 overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SearchBar onSearch={setSearchQuery} />
         </div>

@@ -51,7 +51,7 @@ export default function SearchBar({ onSearch }) {
           onChange={e => handleChange(e.target.value)}
           onFocus={() => suggestions.length && setOpen(true)}
           placeholder="Buscar equipo o camiseta..."
-          className="w-full bg-zinc-900 border border-zinc-700 focus:border-gold-500 text-white pl-12 pr-12 py-4 outline-none transition-colors text-sm placeholder-zinc-600"
+          className="w-full bg-zinc-900 border border-zinc-700 focus:border-gold-500 text-white pl-12 pr-12 py-4 outline-none transition-colors text-base sm:text-sm placeholder-zinc-600"
         />
         {query && (
           <button onClick={clear} className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors">
