@@ -123,7 +123,7 @@ export default function WorldCupSlider({ onAddToCart }) {
             </div>
 
             <button
-              onClick={() => onAddToCart?.({ id: `wc-${cur.team}`, name: `Selección ${cur.team} 2026`, team: cur.team, sizes: ['S','M','L','XL','2XL','3XL','4XL'] })}
+              onClick={() => onAddToCart?.({ id: `wc-${cur.team}`, name: `Selección ${cur.team} 2026`, team: cur.team, img: cur.img, sizes: ['S','M','L','XL','2XL','3XL','4XL'] })}
               className="btn-gold py-3 px-10"
             >
               Pedir esta camiseta
