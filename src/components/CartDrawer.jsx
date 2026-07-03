@@ -186,7 +186,7 @@ export default function CartDrawer({ onClose, onSizeGuide }) {
                     <label className="label text-[10px] mb-1">Nombre *</label>
                     <input
                       {...register('nombre', { required: true })}
-                      className="input-field py-2.5 text-sm"
+                      className="input-field py-2.5"
                       placeholder="Tu nombre"
                     />
                     {errors.nombre && <p className="text-red-500 text-[10px] mt-0.5">Requerido</p>}
@@ -195,7 +195,7 @@ export default function CartDrawer({ onClose, onSizeGuide }) {
                     <label className="label text-[10px] mb-1">Teléfono *</label>
                     <input
                       {...register('telefono', { required: true })}
-                      className="input-field py-2.5 text-sm"
+                      className="input-field py-2.5"
                       placeholder="8888-8888"
                       type="tel"
                     />

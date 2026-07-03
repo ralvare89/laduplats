@@ -36,7 +36,7 @@
     @apply font-display text-4xl sm:text-5xl md:text-7xl tracking-wide md:tracking-wider text-white;
   }
   .input-field {
-    @apply w-full bg-zinc-900 border border-zinc-700 focus:border-gold-500 text-white px-4 py-3 outline-none transition-colors duration-200 placeholder-zinc-500 text-sm;
+    @apply w-full bg-zinc-900 border border-zinc-700 focus:border-gold-500 text-white px-4 py-3 outline-none transition-colors duration-200 placeholder-zinc-500 text-base;
   }
   .label {
     @apply block text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-1;
